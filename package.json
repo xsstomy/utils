@@ -1,0 +1,30 @@
+{
+    "name": "@xss/utils",
+    "version": "1.0.0",
+    "description": "tools",
+    "main": "dist/index.cjs.js",
+    "module": "dist/index.esm.js",
+    "type": "module",
+    "scripts": {
+        "build": "rollup -c"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/xsstomy/utils.git"
+    },
+    "keywords": [
+        "utils"
+    ],
+    "author": "xss",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/xsstomy/utils/issues"
+    },
+    "homepage": "https://github.com/xsstomy/utils#readme",
+    "devDependencies": {
+        "eslint": "^8.31.0"
+    },
+    "dependencies": {
+        "fs-extra": "^11.1.0"
+    }
+}

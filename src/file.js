@@ -1,33 +1,42 @@
-import fse from "fs-extra";
+import fs from "fs-extra";
 import path from "path";
-export async function getFilesPath(folderPath, fileTypes = [], result = []) {
-    // 判断路径是否存在
-    if (!fse.existsSync(folderPath)) {
+
+/**
+ *  获取文件夹下所有文件的路径
+ * @param {*} folderPath
+ * @param {*} fileTypes
+ * @param {*} result
+ * @returns
+ */
+export async function getFilesPath(
+    folderPath,
+    fileTypes = [] || "",
+    result = []
+) {
+    if (!fs.existsSync(folderPath)) {
         throw new Error(`${folderPath} does not exist`);
     }
 
-    if (!Array.isArray(fileTypes)) {
-        throw new Error(`${fileTypes} is not an array`);
+    if (!Array.isArray(fileTypes) && typeof fileTypes !== "string") {
+        throw new Error(`${fileTypes} is not an array or string`);
     }
 
     if (!Array.isArray(result)) {
         throw new Error(`${result} is not an array`);
     }
 
-    //
-    const files = await fse.readdir(folderPath);
-    for (let i = 0; i < files.length; i++) {
-        const filePath = path.join(folderPath, files[i]);
-        const stat = await fse.stat(filePath);
+    const files = await fs.readdir(folderPath);
+
+    for (const file of files) {
+        const filePath = path.join(folderPath, file);
+        const stat = await fs.stat(filePath);
 
         if (stat.isFile()) {
-            const extname = path
-                .extname(files[i])
-                .replace(/\./g, "")
-                .toLowerCase();
+            const extname = path.extname(file).slice(1).toLowerCase();
             if (
-                (fileTypes.length > 0 && fileTypes.includes(extname)) ||
-                fileTypes.length === 0
+                Array.isArray(fileTypes)
+                    ? fileTypes.includes(extname) || fileTypes.length === 0
+                    : fileTypes === file
             ) {
                 result.push(filePath);
             }
